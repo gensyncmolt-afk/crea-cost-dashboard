@@ -1,0 +1,31 @@
+{
+  "lastUpdated": "2026-03-13T10:00:00Z",
+  "totalCost": 125.78,
+  "dailyBreakdown": [
+    {
+      "date": "2026-03-12",
+      "cost": 45.50,
+      "sessions": 120,
+      "users": [
+        {"name": "Manish", "cost": 25.00},
+        {"name": "Suraj", "cost": 15.50},
+        {"name": "Mohit", "cost": 5.00}
+      ]
+    },
+    {
+      "date": "2026-03-11",
+      "cost": 80.28,
+      "sessions": 250,
+      "users": [
+        {"name": "Manish", "cost": 40.00},
+        {"name": "Suraj", "cost": 30.28},
+        {"name": "Mohit", "cost": 10.00}
+      ]
+    }
+  ],
+  "userSummary": [
+    {"user": "Manish", "totalCost": 65.00, "avgSessionCost": 0.54},
+    {"user": "Suraj", "totalCost": 45.78, "avgSessionCost": 0.37},
+    {"user": "Mohit", "totalCost": 15.00, "avgSessionCost": 0.25}
+  ]
+}

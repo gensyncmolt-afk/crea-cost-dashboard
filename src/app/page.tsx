@@ -90,7 +90,7 @@ export default function CostDashboardPage() {
         <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           <div className="bg-zinc-900 border border-zinc-800 p-6 rounded-lg">
             <h2 className="text-zinc-500 text-sm uppercase tracking-widest">Total Cost</h2>
-            <p className="text-4xl font-bold text-white mt-2">${data.totalCost.toFixed(2)}</p>
+            <p className="text-4xl font-bold text-white mt-2">${(data.totalCost ?? 0).toFixed(2)}</p>
           </div>
         </section>
 

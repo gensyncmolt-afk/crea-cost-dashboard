@@ -107,11 +107,11 @@ export default function CostDashboardPage() {
                 </tr>
               </thead>
               <tbody>
-                {data.userSummary.map((user) => (
+                {(data.userSummary || []).map((user) => (
                   <tr key={user.user} className="border-b border-zinc-900">
                     <td className="p-4 font-medium text-white">{user.user}</td>
-                    <td className="p-4 text-zinc-300">${user.totalCost.toFixed(2)}</td>
-                    <td className="p-4 text-zinc-300">${user.avgSessionCost.toFixed(2)}</td>
+                    <td className="p-4 text-zinc-300">${(user.totalCost ?? 0).toFixed(2)}</td>
+                    <td className="p-4 text-zinc-300">${(user.avgSessionCost ?? 0).toFixed(2)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -123,19 +123,19 @@ export default function CostDashboardPage() {
         <section>
           <h2 className="text-2xl font-bold text-white mb-6 tracking-tight">Daily Breakdown</h2>
           <div className="space-y-8">
-            {data.dailyBreakdown.map((day) => (
+            {(data.dailyBreakdown || []).map((day) => (
               <div key={day.date} className="bg-zinc-900/50 border border-zinc-800 p-6 rounded-lg">
                 <div className="flex justify-between items-baseline mb-4">
                   <h3 className="font-bold text-lg text-white">{new Date(day.date).toDateString()}</h3>
                   <p className="text-zinc-400 text-sm">{day.sessions} sessions</p>
                 </div>
-                <div className="text-2xl font-bold text-white mb-4">${day.cost.toFixed(2)}</div>
+                <div className="text-2xl font-bold text-white mb-4">${(day.cost ?? 0).toFixed(2)}</div>
                 <div className="text-xs text-zinc-500 uppercase tracking-widest mb-2">Top Users</div>
                 <ul className="space-y-1 text-sm">
-                  {day.users.map(user => (
+                  {(day.users || []).map(user => (
                     <li key={user.name} className="flex justify-between">
                       <span className="text-zinc-400">{user.name}</span>
-                      <span className="font-medium text-zinc-200">${user.cost.toFixed(2)}</span>
+                      <span className="font-medium text-zinc-200">${(user.cost ?? 0).toFixed(2)}</span>
                     </li>
                   ))}
                 </ul>

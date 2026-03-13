@@ -1,4 +1,6 @@
-import React from 'react';
+'use client';
+
+import React, { useState, useEffect } from 'react';
 
 type UserCost = {
   name: string;
@@ -25,21 +27,51 @@ type CostData = {
   userSummary: UserSummary[];
 };
 
-async function getCostData(): Promise<CostData> {
-  // In a real app, this would be an API call.
-  // For this project, we fetch directly from the public file.
-  // The cache-busting query parameter is essential for Vercel's static caching.
-  const res = await fetch(`${process.env.VERCEL_URL || 'http://localhost:3000'}/cost-data.json?cache-bust=${Date.now()}`, {
-    cache: 'no-store', // Ensures fresh data on every page load
-  });
-  if (!res.ok) {
-    throw new Error('Failed to fetch cost data');
-  }
-  return res.json();
-}
+export default function CostDashboardPage() {
+  const [data, setData] = useState<CostData | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-export default async function CostDashboardPage() {
-  const data = await getCostData();
+  useEffect(() => {
+    async function getCostData() {
+      try {
+        const fetchUrl = `/cost-data.json?cache-bust=${Date.now()}`;
+        const res = await fetch(fetchUrl);
+        if (!res.ok) {
+          throw new Error(`Failed to fetch cost data. Status: ${res.status}`);
+        }
+        const jsonData = await res.json();
+        setData(jsonData);
+      } catch (e: any) {
+        setError(e.message);
+      }
+    }
+    getCostData();
+  }, []);
+
+
+  if (error) {
+    return (
+      <main className="min-h-screen bg-black text-gray-300 font-sans p-8">
+        <div className="max-w-7xl mx-auto text-center">
+            <h1 className="text-4xl font-bold text-white tracking-tighter">Error</h1>
+            <p className="text-zinc-500 mt-2">Could not load cost data.</p>
+            {error && <p className="text-red-500 text-sm mt-4 font-mono">{error}</p>}
+        </div>
+      </main>
+    )
+  }
+  
+  if (!data) {
+    return (
+        <main className="min-h-screen bg-black text-gray-300 font-sans p-8">
+            <div className="max-w-7xl mx-auto text-center">
+                <h1 className="text-4xl font-bold text-white tracking-tighter animate-pulse">Loading Cost Data...</h1>
+            </div>
+        </main>
+    )
+  }
+
+  // This logic is now safe because we've already checked that 'data' is not null.
   const lastUpdated = new Date(data.lastUpdated).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
 
   return (
